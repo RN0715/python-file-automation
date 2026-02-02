@@ -39,6 +39,7 @@ downloads/
 2. Place files inside the folder
 3. Run the script:
 
+##Demo Screenshot
    
 ## Limitations
 - Only processes files in the top-level directory

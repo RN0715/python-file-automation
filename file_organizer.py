@@ -1,7 +1,9 @@
 import shutil
 from pathlib import Path
 
-SOURCE_DIR = Path("downloads")
+# UPDATED: Use current working directory instead of hardcoded "downloads"
+# This ensures the script organizes the folder you run it from.
+SOURCE_DIR = Path.cwd()
 
 FILE_TYPES = {
     "Images": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
@@ -39,32 +41,43 @@ def organize_files():
 
     files_moved = 0
     
-    for file in SOURCE_DIR.iterdir():
-        if file.is_file():
+    for item in SOURCE_DIR.iterdir():
+        # Skip the script itself and newly created folders to prevent infinite loops
+        if item.name == Path(__file__).name:
+            continue
+        
+        if item.is_file():
             target_folder = None
+            found_match = False
+            
             for folder, extensions in FILE_TYPES.items():
                 if folder == "Other":
                     continue
                 
-                if file.suffix.lower() in extensions:
+                if item.suffix.lower() in extensions:
                     target_folder = folder
+                    found_match = True
                     break
             
-            if not target_folder:
+            if not found_match:
                 target_folder = "Other"
 
             target_dir = SOURCE_DIR / target_folder
             target_dir.mkdir(exist_ok=True)
 
-            destination = target_dir / file.name
+            destination = target_dir / item.name
             destination = get_unique_path(destination)
 
             try:
-                shutil.move(str(file), str(destination))
-                print(f"[OK] Moved '{file.name}' -> {target_folder}/")
+                shutil.move(str(item), str(destination))
+                print(f"[OK] Moved '{item.name}' -> {target_folder}/")
                 files_moved += 1
             except Exception as e:
-                print(f"[ERROR] Could not move '{file.name}': {e}")
+                print(f"[ERROR] Could not move '{item.name}': {e}")
+        
+        # Optional: Debug info to see why files aren't moving
+        # else:
+        #     print(f"[SKIP] '{item.name}' is a directory, skipping...")
 
     print("-" * 30)
     print(f"Operation Complete. {files_moved} files moved.")

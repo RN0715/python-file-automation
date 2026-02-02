@@ -39,11 +39,13 @@ downloads/
 2. Place files inside the folder
 3. Run the script:
 
-##Demo Screenshot
+
    
 ## Limitations
 - Only processes files in the top-level directory
 - Files with unsupported extensions are ignored
+
+  Note that screenshot of the tool in action is uploaded to the repository
 
 ## Author
 K.W.R.Nethmini  

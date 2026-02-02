@@ -45,7 +45,7 @@ downloads/
 - Files with unsupported extensions are ignored
 
 ## Author
-Reshana Nethmini  
+K.W.R.Nethmini  
 AI-Assisted Automation Developer
 
 
